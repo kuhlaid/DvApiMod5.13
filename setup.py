@@ -1,5 +1,4 @@
-# from setuptools import setup
-__import__("setuptools").setup()
+from setuptools import setup, find_packages
 
 from DvApiMod_pip_package import __version__
 
@@ -9,5 +8,5 @@ setup(
     url='https://github.com/kuhlaid/DvApiMod5.13',
     author='w. Patrick Gale',
     author_email='w.patrick.gale@gmail.com',
-    py_modules=['DvApiMod_pip_package'],
+    packages=find_packages(exclude=['tests', 'tests.*']),
 )
