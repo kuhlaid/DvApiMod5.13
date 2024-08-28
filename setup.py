@@ -1,4 +1,5 @@
-from setuptools import setup
+# from setuptools import setup
+__import__("setuptools").setup()
 
 from DvApiMod_pip_package import __version__
 
