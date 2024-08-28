@@ -1,6 +1,8 @@
 # setup.py shim for use with applications that require it.
 __import__("setuptools").setup()
 
+from setuptools import setup
+
 from DvApiMod_pip_package import __version__
 
 setup(
