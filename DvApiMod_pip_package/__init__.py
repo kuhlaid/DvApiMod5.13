@@ -1,14 +1,14 @@
 # This script is used to separate the Dataverse API methods from our main Jupyter notebook code to simplify the code that users see
-# __version__ = '1.0'
-try:
-    from ._version import __version__
-except ImportError:
-    # Fallback when using the package in dev mode without installing
-    # in editable mode with pip. It is highly recommended to install
-    # the package from a stable release or in editable mode: https://pip.pypa.io/en/stable/topics/local-project-installs/#editable-installs
-    import warnings
-    warnings.warn("Importing 'DvApiMod_pip_package' outside a proper installation.")
-    __version__ = "dev"
+__version__ = '1.0'
+# try:
+#     from ._version import __version__
+# except ImportError:
+#     # Fallback when using the package in dev mode without installing
+#     # in editable mode with pip. It is highly recommended to install
+#     # the package from a stable release or in editable mode: https://pip.pypa.io/en/stable/topics/local-project-installs/#editable-installs
+#     import warnings
+#     warnings.warn("Importing 'DvApiMod_pip_package' outside a proper installation.")
+#     __version__ = "dev"
 
 # @title Here we create a main working object (DvMod) so our configuration and database connections can more easily integrate. Also separating the code from the notebooks makes the notebook easier to read and manage.
 import curlify
