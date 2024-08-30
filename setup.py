@@ -3,7 +3,7 @@
 # TODO: we could try https://stackoverflow.com/questions/458550/standard-way-to-embed-version-into-python-package for automating the version number generation
 
 # pull in the __version__ constant from the package
-from DvApiMod_pip_package import __version__
+from .DvApiMod_pip_package import __version__
 
 __import__("setuptools").setup(
     version=__version__
