@@ -5,6 +5,3 @@
 __import__("setuptools").setup(
     version="1.0.2"
 )
-
-# version=__version__
-# version="1.0.1",  # removed this from the setup to see if the pyproject.toml will take care of it
