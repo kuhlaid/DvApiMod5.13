@@ -1,8 +1,7 @@
 name: Write Version to File
 on:
-  push:
-    branches:
-      - master
+  release:
+    types: [published]
 
 jobs:
   write-version:
