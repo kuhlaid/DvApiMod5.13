@@ -101,7 +101,7 @@ class ObjDvApi:
             "Content-Type": "application/json",
             "X-Dataverse-Key": self.strDATAVERSE_API_TOKEN
         }
-        r = requests.request("POST", strApiEndpoint, json=self.objConfig["objDvApi_DATASET_INIT"], headers=objHeaders)  # this only creates a dataset placeholder with partial information
+        r = requests.request("POST", strApiEndpoint, json=self.objConfig["objDvApi_DATASET_INIT"], headers=objHeaders)  # creates a dataset using the information from our objDvApi_DATASET_INIT configuration object
         self.printResponseInfo(r)
         return r
         self.logger.info("end createDataset")
