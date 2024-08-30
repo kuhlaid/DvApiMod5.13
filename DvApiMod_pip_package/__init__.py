@@ -101,8 +101,7 @@ class ObjDvApi:
             "Content-Type": "application/json",
             "X-Dataverse-Key": self.strDATAVERSE_API_TOKEN
         }
-        r = requests.request("POST", strApiEndpoint, json=self.objConfig["objDvApi_DATASET_PART"], headers=objHeaders)  # this only creates a dataset placeholder with partial information
-        # r = requests.request("POST", strApiEndpoint, json=self.objConfig["objDvApi_DATASET_FULL"], headers=objHeaders)  # full dataset properties not working (8/17)
+        r = requests.request("POST", strApiEndpoint, json=self.objConfig["objDvApi_DATASET_INIT"], headers=objHeaders)  # this only creates a dataset placeholder with partial information
         self.printResponseInfo(r)
         return r
         self.logger.info("end createDataset")
