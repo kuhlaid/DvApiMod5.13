@@ -21,7 +21,7 @@ name="DvApiMod5.13"
 
 [tool.setuptools_scm]
 # here we tell the build process to generate a _version.py file for us
-version_file = "_version.py"
+version_file = "DvApiMod5.13/_version.py"
 
 readme = "README.md"
 
