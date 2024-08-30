@@ -1,0 +1,59 @@
+# Guide (user-friendly):
+# Example from https://github.com/pypa/sampleproject/blob/main/pyproject.toml
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+
+# Specification (technical, formal):
+# https://packaging.python.org/en/latest/specifications/pyproject-toml/
+
+
+# Choosing a build backend:
+# https://packaging.python.org/en/latest/tutorials/packaging-projects/#choosing-a-build-backend
+[build-system]
+# A list of packages that are needed to build your package:
+requires = ["setuptools>=64", "setuptools-scm>=8"]  # REQUIRED if [build-system] table is used
+# The name of the Python object that frontends will use to perform the build:
+build-backend = "setuptools.build_meta"  # If not defined, then legacy behavior can happen.
+
+[project]
+# version = "0.0.1"  # Remove any existing version parameter.
+dynamic = ["version"]
+name="DvApiMod5.13"
+
+[tool.setuptools_scm]
+# here we tell the build process to generate a _version.py file for us
+version_file = "DvApiMod_pip_package/_version.py"
+
+readme = "README.md"
+
+# This field lists other packages that your project depends on to run.
+# Any package you put here will be installed by pip when your project is
+# installed, so they must be valid existing projects.
+#
+# For an analysis of this field vs pip's requirements files see:
+# https://packaging.python.org/discussions/install-requires-vs-requirements/
+dependencies = [
+  "setuptools-scm>=8"
+]
+
+# This is either text indicating the license for the distribution, or a file
+# that contains the license.
+# https://packaging.python.org/en/latest/specifications/core-metadata/#license
+license = {file = "LICENSE.txt"}
+
+# This should be your name or the name of the organization who originally
+# authored the project, and a valid email address corresponding to the name
+# listed.
+authors = [
+  {name = "w. Patrick Gale", email = "w.patrick.gale@gmail.com" }
+]
+
+# This should be your name or the names of the organization who currently
+# maintains the project, and a valid email address corresponding to the name
+# listed.
+maintainers = [
+  {name = "w. Patrick Gale", email = "w.patrick.gale@gmail.com" }
+]
+
+[project.urls]
+"Homepage" = "https://github.com/kuhlaid/DvApiMod5.13"
+"Source" = "https://github.com/kuhlaid/DvApiMod5.13"

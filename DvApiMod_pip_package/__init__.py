@@ -1,5 +1,11 @@
 # This script is used to separate the Dataverse API methods from our main Jupyter notebook code to simplify the code that users see
-__version__ = '1.0'
+from importlib.metadata import version, PackageNotFoundError
+
+try:
+    __version__ = version("package-name")
+except PackageNotFoundError:
+    # package is not installed
+    pass
 
 # @title Here we create a main working object (DvMod) so our configuration and database connections can more easily integrate. Also separating the code from the notebooks makes the notebook easier to read and manage.
 import curlify
