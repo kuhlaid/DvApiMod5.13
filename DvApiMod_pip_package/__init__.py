@@ -193,18 +193,14 @@ class ObjDvApi:
     # @title Add a new file to a dataset (or replace an existing one)
     # @arguments objFile=JSON object defining the file for upload
     def addDatasetFile(self, objFile):
-        self.getDvDatasetContents(objFile)
+        self.getDvDatasetContents(objFile, objParams)
         objFileReturn = self.checkFileForUpload(objFile["strFileName"], os.path.join(objFile["strUploadPath"],objFile["strFileName"]))  # check that we are ready for upload
         self.logger.info(objFileReturn)
         # --------------------------------------------------
         # Using a "jsonData" parameter, add optional description + file tags
         # --------------------------------------------------
-        params = dict(description=objFile["strDataDescription"],
-                    directoryLabel=objFile["strDirectoryLabel"],
-                    fileName=objFile["strFileName"],
-                    categories=objFile["lstCatgories"])
-        self.logger.info("addDatasetFile: "+objFile["strFileName"]+" "+str(params))
-        params_as_json_string = json.dumps(params)
+        self.logger.info("addDatasetFile: "+objFile["strFileName"]+" "+str(objParams))
+        params_as_json_string = json.dumps(objParams)
         payload = dict(jsonData=params_as_json_string)
         if (objFileReturn["blnFileExists"]==False): # if the file does not already exist in the dataset we upload it using the 'add' API endpoint
             strApiEndpoint = '%s/api/datasets/:persistentId/add?persistentId=%s' % (self.strDATAVERSE_DOMAIN, objFile["strDvUrlPersistentId"])
