@@ -192,7 +192,7 @@ class ObjDvApi:
     
     # @title Add a new file to a dataset (or replace an existing one)
     # @arguments objFile=JSON object defining the file for upload
-    def addDatasetFile(self, objFile):
+    def addDatasetFile(self, objFile, objParams):
         self.getDvDatasetContents(objFile, objParams)
         objFileReturn = self.checkFileForUpload(objFile["strFileName"], os.path.join(objFile["strUploadPath"],objFile["strFileName"]))  # check that we are ready for upload
         self.logger.info(objFileReturn)
