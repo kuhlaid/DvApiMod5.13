@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.5] - 2024-09-04
+
+- [x] allowing curlify to be disabled since it causes issues with 
+
 ## [v1.0.4] - 2024-09-04
 
 - [x] **IMPORTANT** change methods to allow for passing in parameters instead of assuming other users will be using the same JSON configuration

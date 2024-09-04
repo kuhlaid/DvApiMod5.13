@@ -164,7 +164,7 @@ class ObjDvApi:
             }
             r = requests.request("POST", strApiEndpoint, headers=objHeaders)
             self.printResponseInfo(r)
-            self.logger.info(curlify.to_curl(r.request))
+            self.outputCurlCmd(r.request)
             if (r.status_code!=200):
                 raise RuntimeError("***ERROR: The Dataverse collection could not be published***")
         # ========= end publishing the collection if needed
@@ -177,7 +177,7 @@ class ObjDvApi:
         }
         r = requests.request("POST", strApiEndpoint, headers=objHeaders)
         self.printResponseInfo(r)
-        self.logger.info(curlify.to_curl(r.request))
+        self.outputCurlCmd(r.request)
         self.logger.info("end publishDatasetDraft")
         if (r.status_code!=200):
             raise RuntimeError("***ERROR: The dataset could not be published***")
@@ -229,9 +229,15 @@ class ObjDvApi:
             r = requests.request("POST", strApiEndpoint, files=objfileData, headers=objHeaders)
         else: # update or add new file
             r = requests.request("POST", strApiEndpoint, data=payload, files=objFilePost, headers=objHeaders)
-        self.logger.info(curlify.to_curl(r.request))
+        self.outputCurlCmd(r.request)
         self.printResponseInfo(r)
         self.logger.info("--end uploadFileToDv--")
+
+    
+    # @title This is needed because curlify does not handle requests for zip files, so we need to disable the commands if they are causing problems.
+    def outputCurlCmd(self, objRequest):
+        if self.objConfig["blnSHOW_CURL_COMMANDS"]:
+            self.logger.info(curlify.to_curl(objRequest))
 
 
     # @title Delete files we no longer want to use in a new version of the dataset
@@ -255,7 +261,7 @@ class ObjDvApi:
         #     "X-Dataverse-Key": self.strDATAVERSE_API_TOKEN
         # }
         r = requests.request("DELETE", strApiEndpoint, auth=(self.strDATAVERSE_API_TOKEN, ''))
-        self.logger.info(curlify.to_curl(r.request))
+        self.outputCurlCmd(r.request)
         # r = requests.request("DELETE", strApiEndpoint, headers=objHeaders) # this is for the Native API
         self.printResponseInfo(r)
         if (r.status_code!=204):
