@@ -28,7 +28,10 @@ class ObjDvApi:
         
     
     # @title Create a new Dataverse collection (which is the same thing as creating a new Dataverse)
-    def createCollection(self):
+    # see https://guides.dataverse.org/en/5.13/api/native-api.html#create-a-dataverse-collection for API reference
+    # WARNING: If you use a GET request instead of a POST request to the API endpoint, the action may appear to be successful but it will simply be returning the Dataverse collection of the main parent collection, and NOT create a new collection for you.
+    # @argument objCollection="this is the JSON object that describes our Dataverse configuration/properties"
+    def createCollection(self, objCollection):
         self.logger.info("start createCollection")
         strApiEndpoint = '%s/api/dataverses/%s' % (self.strDATAVERSE_DOMAIN, self.strDATAVERSE_PARENT_COLLECTION)
         self.logger.info('making request: %s' % strApiEndpoint)
@@ -36,15 +39,16 @@ class ObjDvApi:
             "Content-Type": "application/json",
             "X-Dataverse-Key": self.strDATAVERSE_API_TOKEN
         }
-        r = requests.request("POST", strApiEndpoint, json=self.objConfig["objDvApi_COLLECTION_START"], headers=objHeaders) # it is nice I can simply send the JSON object without the need to create a separate JSON file
+        r = requests.request("POST", strApiEndpoint, json=objCollection, headers=objHeaders) # it is nice I can simply send the JSON object without the need to create a separate JSON file
         self.printResponseInfo(r)
         self.logger.info("end createCollection")
         
 
     # @title View a new Dataverse collection based on the collection alias
-    def viewCollection(self):
+    # @argument strCollectionAlias="Dataverse alias"
+    def viewCollection(self, strCollectionAlias):
         self.logger.info("start viewCollection")
-        strApiEndpoint = '%s/api/dataverses/%s' % (self.strDATAVERSE_DOMAIN, self.objConfig["objDvApi_COLLECTION_START"]["alias"])
+        strApiEndpoint = '%s/api/dataverses/%s' % (self.strDATAVERSE_DOMAIN, strCollectionAlias)
         self.logger.info('making request: %s' % strApiEndpoint)
         objHeaders = {
             "Content-Type": "application/json",
@@ -56,9 +60,10 @@ class ObjDvApi:
         
 
     # @title Delete a new Dataverse collection based on the collection alias
-    def deleteCollection(self):
+    # @argument strCollectionAlias="Dataverse alias"
+    def deleteCollection(self, strCollectionAlias):
         self.logger.info("start deleteCollection")
-        strApiEndpoint = '%s/api/dataverses/%s' % (self.strDATAVERSE_DOMAIN, self.objConfig["objDvApi_COLLECTION_START"]["alias"])
+        strApiEndpoint = '%s/api/dataverses/%s' % (self.strDATAVERSE_DOMAIN, strCollectionAlias)
         self.logger.info('making request: %s' % strApiEndpoint)
         objHeaders = {
             "Content-Type": "application/json",
@@ -70,9 +75,10 @@ class ObjDvApi:
         
 
     # @title Get Dataverse collection contents based on the collection alias
-    def getCollectionContents(self):
+    # @argument strCollectionAlias="Dataverse alias"
+    def getCollectionContents(self, strCollectionAlias):
         self.logger.info("start getCollectionContents")
-        strApiEndpoint = '%s/api/dataverses/%s/contents' % (self.strDATAVERSE_DOMAIN, self.objConfig["objDvApi_COLLECTION_START"]["alias"])
+        strApiEndpoint = '%s/api/dataverses/%s/contents' % (self.strDATAVERSE_DOMAIN, strCollectionAlias)
         self.logger.info('making request: %s' % strApiEndpoint)
         objHeaders = {
             "Content-Type": "application/json",
@@ -84,23 +90,25 @@ class ObjDvApi:
         
         
     # @title List Dataverse collection contents based on the collection alias
-    def viewCollectionContents(self):
+    # @argument strCollectionAlias="Dataverse alias"
+    def viewCollectionContents(self, strCollectionAlias):
         self.logger.info("start viewCollectionContents")
-        r = self.getCollectionContents()
+        r = self.getCollectionContents(strCollectionAlias)
         self.printResponseInfo(r)
         self.logger.info("end viewCollectionContents")
 
     
     # @title Create a new dataset
-    def createDataset(self):
+    # @argument strCollectionAlias="Dataverse alias"; objDatasetConfig="the properties or basic metadata we will use to define our Dataset"
+    def createDataset(self, strCollectionAlias, objDatasetConfig):
         self.logger.info("start createDataset")
-        strApiEndpoint = '%s/api/dataverses/%s/datasets' % (self.strDATAVERSE_DOMAIN, self.objConfig["objDvApi_COLLECTION_START"]["alias"])
+        strApiEndpoint = '%s/api/dataverses/%s/datasets' % (self.strDATAVERSE_DOMAIN, strCollectionAlias)
         self.logger.info('making request: %s' % strApiEndpoint)
         objHeaders = {
             "Content-Type": "application/json",
             "X-Dataverse-Key": self.strDATAVERSE_API_TOKEN
         }
-        r = requests.request("POST", strApiEndpoint, json=self.objConfig["objDvApi_DATASET_INIT"], headers=objHeaders)  # creates a dataset using the information from our objDvApi_DATASET_INIT configuration object
+        r = requests.request("POST", strApiEndpoint, json=objDatasetConfig, headers=objHeaders)  # creates a dataset using the information from our objDvApi_DATASET_INIT configuration object
         self.printResponseInfo(r)
         return r
         self.logger.info("end createDataset")
@@ -136,10 +144,10 @@ class ObjDvApi:
 
 
     # @title Publish a dataset draft
-    def publishDatasetDraft(self, objDatasetMeta, strType):
+    def publishDatasetDraft(self, objDatasetMeta, strType, strCollectionAlias):
         self.logger.info("start publishDatasetDraft")
         # first we will check if our collection is published
-        r = self.getCollectionContents()
+        r = self.getCollectionContents(strCollectionAlias)
         blnCollectionNotPublished = True
         if "json" in dir(r):
             jsonR = r.json()
@@ -149,7 +157,7 @@ class ObjDvApi:
                     
         # ========= publish the collection if needed
         if blnCollectionNotPublished:
-            strApiEndpoint = '%s/api/dataverses/%s/actions/:publish' % (self.strDATAVERSE_DOMAIN, objDatasetMeta["dv_alias"])
+            strApiEndpoint = '%s/api/dataverses/%s/actions/:publish' % (self.strDATAVERSE_DOMAIN, strCollectionAlias)
             self.logger.info('making request: %s' % strApiEndpoint)
             objHeaders = {
                 "X-Dataverse-Key": self.strDATAVERSE_API_TOKEN
