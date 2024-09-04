@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [xxx] - future
 
-- [ ] ???
+- [ ] **IMPORTANT** change methods to allow for passing in parameters instead of assuming other users will be using the same JSON configuration
+- [x] fixing issue with `printResponseInfo` method not handling missing JSON response correctly
 
 ## [v1.0.3] - 2024-09-03
 

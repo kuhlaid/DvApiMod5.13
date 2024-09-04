@@ -261,7 +261,7 @@ class ObjDvApi:
         self.logger.info('-' * 40) # simple delineation so we know when this method is called in our output 
         self.logger.info("response status="+str(r.status_code))
         self.logger.info("headers="+str(r.headers))
-        if "json" in dir(r):  # if we have response JSON function then log it
+        if 'application/json' in r.headers.get('Content-Type', ''):  # if we have response JSON function then log it
             self.logger.info("json="+str(r.json()))
         
 
