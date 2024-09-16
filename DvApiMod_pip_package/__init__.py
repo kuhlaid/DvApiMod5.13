@@ -99,8 +99,8 @@ class ObjDvApi:
 
     
     # @title Create a new dataset
-    # @argument strCollectionAlias="Dataverse alias"; objDatasetConfig="the properties or basic metadata we will use to define our Dataset"
-    def createDataset(self, strCollectionAlias, objDatasetConfig):
+    # @argument strCollectionAlias="Dataverse alias"; objDatasetInit="the properties or basic metadata we will use to define our Dataset"
+    def createDataset(self, strCollectionAlias, objDatasetInit):
         self.logger.info("start createDataset")
         strApiEndpoint = '%s/api/dataverses/%s/datasets' % (self.strDATAVERSE_DOMAIN, strCollectionAlias)
         self.logger.info('making request: %s' % strApiEndpoint)
@@ -108,10 +108,30 @@ class ObjDvApi:
             "Content-Type": "application/json",
             "X-Dataverse-Key": self.strDATAVERSE_API_TOKEN
         }
-        r = requests.request("POST", strApiEndpoint, json=objDatasetConfig, headers=objHeaders)  # creates a dataset using the information from our objDvApi_DATASET_INIT configuration object
+        # ***NOTE: when compiling metadata for use with the Dataverse API, leave off the `datasetVersion` element since this cannot be included when updating the dataset metadata (only for creating the dataset), so it does not make since to include the element since it would need to be removed for updating the metadata***
+        if not "datasetVersion" in objDatasetInit:  # we need to wrap the metadata in `datasetVersion`
+            objDatasetInit = {"datasetVersion": objDatasetInit}
+        
+        r = requests.request("POST", strApiEndpoint, json=objDatasetInit, headers=objHeaders)  # creates a dataset using the information from our configuration object
         self.printResponseInfo(r)
         return r
         self.logger.info("end createDataset")
+
+
+    # @title Update the dataset metadata
+    # @argument strDvUrlPersistentId="Dataset DOI"; objDatasetMetadata="the properties or basic metadata we will use to define our Dataset"
+    def updateDatasetMetadata(self, strDvUrlPersistentId, objDatasetMetadata):
+        self.logger.info("start updateDatasetMD")
+        strApiEndpoint = '%s/api/datasets/:persistentId/versions/:draft?persistentId=%s' % (self.strDATAVERSE_DOMAIN, strDvUrlPersistentId)
+        self.logger.info('making request: %s' % strApiEndpoint)
+        objHeaders = {
+            "Content-Type": "application/json",
+            "X-Dataverse-Key": self.strDATAVERSE_API_TOKEN
+        }
+        r = requests.request("PUT", strApiEndpoint, json=objDatasetMetadata, headers=objHeaders)  # update dataset metadata
+        self.printResponseInfo(r)
+        return r
+        self.logger.info("end updateDatasetMD")
 
 
     # @title Delete a dataset draft
@@ -184,9 +204,9 @@ class ObjDvApi:
 
 
     # @title Request the dataset contents from the Dataverse so we can compare with what we have locally
-    def getDvDatasetContents(self,objFile):
+    def getDvDatasetContents(self,objFile, strVersion=':latest'):
         # use the requests module from Python to make a simple request to the Dataverse to check the contents
-        url = self.strDATAVERSE_DOMAIN+"/api/datasets/:persistentId/versions/:latest?persistentId="+objFile["strDvUrlPersistentId"]
+        url = self.strDATAVERSE_DOMAIN+"/api/datasets/:persistentId/versions/"+strVersion+"?persistentId="+objFile["strDvUrlPersistentId"]
         headers = {
             "Content-Type": "application/json",
             "X-Dataverse-Key": self.strDATAVERSE_API_TOKEN
@@ -231,6 +251,8 @@ class ObjDvApi:
             r = requests.request("POST", strApiEndpoint, data=payload, files=objFilePost, headers=objHeaders)
         self.outputCurlCmd(r.request)
         self.printResponseInfo(r)
+        if (r.status_code!=200): # need to find out which code to expect for success
+            raise RuntimeError("***ERROR: The file could not be added***")
         self.logger.info("--end uploadFileToDv--")
 
     

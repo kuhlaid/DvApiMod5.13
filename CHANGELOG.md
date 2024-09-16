@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.6] - 2024-09-16
+
+- [x] allow version argument for `getDvDatasetContents` method (so users can get draft or other version contents)
+- [x] modifying the `createDataset` metod to automatically wrap the metadata in a `datasetVersion` if it is missing (so users can apply the same dataset metadata schema to both dataset creation and dataset update API endpoints)
+- [x] removing `datasetVersion` wrapper from dataset metadata
+- [x] adding `updateDatasetMetadata` method
+
 ## [v1.0.5] - 2024-09-04
 
 - [x] allowing curlify to be disabled since it causes issues with 
