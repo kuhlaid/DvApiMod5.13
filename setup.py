@@ -3,5 +3,5 @@
 # If a 'version' file can be generated automatically from GitHub actions then we could use that
 
 __import__("setuptools").setup(
-    version="1.0.4"
+    version="1.0.6"
 )
