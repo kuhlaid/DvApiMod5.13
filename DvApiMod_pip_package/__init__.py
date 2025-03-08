@@ -309,18 +309,19 @@ class ObjDvApi:
         objFileReturn={"blnFileExists":False, "blnMd5Match":True}  # assumptions for our files
         strExistingMd5=''
         # self.logger.info(len(self.dictDatasetContents['data']['files']))
-        for dvFile in self.dictDatasetContents['data']['files']: # loop through the files in the dataset to find the one we want to replace
-            strExistingMd5 = dvFile['dataFile']['md5']
-            if 'originalFileName' in dvFile['dataFile']:    # NOTE: some files are unique in the Dataverse in that they are not labeled the same way due to the original format switched to tab delimited format, so we need to check for an `originalFileName` element
-                if (dvFile['dataFile']['originalFileName']==strFileName):
-                    objFileReturn=dvFile
-                    objFileReturn["blnFileExists"]=True
-                    break
-            else:
-                if (dvFile['label']==strFileName):     # check files other than files converted to tab delimited in the Dataverse
-                    objFileReturn=dvFile
-                    objFileReturn["blnFileExists"]=True
-                    break
+        if "data" in self.dictDatasetContents and "files" in self.dictDatasetContents['data']:
+            for dvFile in self.dictDatasetContents['data']['files']: # loop through the files in the dataset to find the one we want to replace
+                strExistingMd5 = dvFile['dataFile']['md5']
+                if 'originalFileName' in dvFile['dataFile']:    # NOTE: some files are unique in the Dataverse in that they are not labeled the same way due to the original format switched to tab delimited format, so we need to check for an `originalFileName` element
+                    if (dvFile['dataFile']['originalFileName']==strFileName):
+                        objFileReturn=dvFile
+                        objFileReturn["blnFileExists"]=True
+                        break
+                else:
+                    if (dvFile['label']==strFileName):     # check files other than files converted to tab delimited in the Dataverse
+                        objFileReturn=dvFile
+                        objFileReturn["blnFileExists"]=True
+                        break
         if (objFileReturn["blnFileExists"]==True): # if the file we are wanting to upload currently exists in the the Dataverse dataset, we check the MD5 checksum of both files and only upload if the MD5 differs
             newFileMd5 = self.md5(strFilePath)
             self.logger.info("MD5 are local "+newFileMd5+" and dataset "+strExistingMd5)
