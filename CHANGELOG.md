@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v1.0.9] - 2025-03-12
 
-- [x] requirements.txt file to see if it will satisfy curlify requirement for the plugin
+- [x] added curlify requirement for the plugin within the pyproject.toml
 
 ## [v1.0.8] - 2025-03-12
 
