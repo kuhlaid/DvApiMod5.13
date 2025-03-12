@@ -15,9 +15,9 @@ class ObjDvApi:
     def __init__(self,objConfig):
         self.eventLogger()
         self.objConfig = objConfig
-        self.strDATAVERSE_PARENT_COLLECTION = self.objConfig["strDvApi_PARENT_COLLECTION"]
-        self.strDATAVERSE_DOMAIN = self.objConfig["strDvApi_DOMAIN"]
-        self.strDATAVERSE_API_TOKEN = self.objConfig["strDvApi_TOKEN"]
+        self.strDATAVERSE_PARENT_COLLECTION = self.objConfig["_cc__strDvApi_PARENT_COLLECTION"]
+        self.strDATAVERSE_DOMAIN = self.objConfig["_cc__strDvApi_DOMAIN"]
+        self.strDATAVERSE_API_TOKEN = self.objConfig["_cc__strDvApi_TOKEN"]
         self.logger.info("Finished ObjDvApi init")
 
 
@@ -258,7 +258,7 @@ class ObjDvApi:
     
     # @title This is needed because curlify does not handle requests for zip files, so we need to disable the commands if they are causing problems.
     def outputCurlCmd(self, objRequest):
-        if self.objConfig["blnSHOW_CURL_COMMANDS"]:
+        if self.objConfig["_cc__blnSHOW_CURL_COMMANDS"]:
             self.logger.info(curlify.to_curl(objRequest))
 
 
