@@ -1,7 +1,7 @@
 # This script is used to separate the Dataverse API methods from our main Jupyter notebook code to simplify the code that users see
     
 # @title Here we create a main working object (DvMod) so our configuration and database connections can more easily integrate. Also separating the code from the notebooks makes the notebook easier to read and manage.
-import curlify
+# import curlify
 import json
 import logging
 import requests
@@ -258,8 +258,9 @@ class ObjDvApi:
     
     # @title This is needed because curlify does not handle requests for zip files, so we need to disable the commands if they are causing problems.
     def outputCurlCmd(self, objRequest):
-        if self.objConfig["_cc__blnSHOW_CURL_COMMANDS"]:
-            self.logger.info(curlify.to_curl(objRequest))
+        return  # disabling since it isn't worth installing curlify in most cases
+        # if self.objConfig["_cc__blnSHOW_CURL_COMMANDS"]:
+        #     self.logger.info(curlify.to_curl(objRequest))
 
 
     # @title Delete files we no longer want to use in a new version of the dataset
