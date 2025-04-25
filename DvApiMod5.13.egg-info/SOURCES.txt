@@ -1,0 +1,12 @@
+.gitignore
+CHANGELOG.md
+LICENSE
+README.md
+pyproject.toml
+setup.py
+.github/workflows/python-package.yml
+DvApiMod5.13.egg-info/PKG-INFO
+DvApiMod5.13.egg-info/SOURCES.txt
+DvApiMod5.13.egg-info/dependency_links.txt
+DvApiMod5.13.egg-info/top_level.txt
+DvApiMod_pip_package/__init__.py
