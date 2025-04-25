@@ -36,3 +36,11 @@ twineToTest: createWheel
        $(VENV_DIR)/bin/pip install twine; \
 	   twine upload -r testpypi dist/*; \
     )
+
+# publish the module to PyPI.org
+twineToProd:
+	( \
+       . .venv/bin/activate; \
+       pip install twine; \
+	   twine upload dist/*; \
+    )
