@@ -8,4 +8,4 @@ The Dataverse Project API has more than one API, which can be confusing to under
 
 ## Using the package
 
-The easiest way to test and work with this module is via a Jupyter Notebook designed specifically for use with this module. The Notebook can be found under the [Getted Started section](https://github.com/kuhlaid/dv-api-test/edit/main/README.md#get-started) at https://github.com/kuhlaid/dv-api-test. An online virtual environment is provided to test this module without the need to build your own Python environment from scratch.
+The easiest way to test and work with this module is via a Jupyter Notebook designed specifically for use with this module. The Notebook can be found under the [Getted Started section](https://github.com/kuhlaid/dv-api-test/tree/main?tab=readme-ov-file#get-started) at https://github.com/kuhlaid/dv-api-test. An online virtual environment is provided to test this module without the need to build your own Python environment from scratch.
